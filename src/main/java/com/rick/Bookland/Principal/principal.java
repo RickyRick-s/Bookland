@@ -1,6 +1,7 @@
 package com.rick.Bookland.Principal;
 
 
+import com.rick.Bookland.Models.Books;
 import com.rick.Bookland.Models.Datos;
 import com.rick.Bookland.Models.Libros;
 import com.rick.Bookland.Service.ConvierteDatos;
@@ -19,9 +20,6 @@ public class principal {
         var json = API.obtenerDatos(URL);
         ConvierteDatos conversor = new ConvierteDatos();
         var datos = conversor.obtenerDatos(json, Datos.class);
-        System.out.println("**************************");
-        System.out.println("Todos los libros: ");
-        System.out.println(datos);
         List<Libros> LibrosObjeto = datos.books().stream()
                 .map(b -> new Libros(b))
                 .collect(Collectors.toUnmodifiableList());
@@ -34,16 +32,14 @@ public class principal {
         System.out.println("**************************");
         System.out.println("Ingrese el nombre del libro a buscar");
         var busqueda = scan.nextLine();
-        Optional <Libros> libroSelecto =LibrosObjeto.stream()
-                .filter(e->e.getTitulo().toUpperCase().contains(busqueda.toUpperCase()))
+        json = API.obtenerDatos(URL +"?search=" + busqueda.replace(" ", "+"));
+        var datosConsulta = conversor.obtenerDatos(json, Datos.class);
+        Optional <Books> libroSelecto =datosConsulta.books().stream()
+                .filter(e->e.titulo().toUpperCase().contains(busqueda.toUpperCase()))
                 .findFirst();
                 if(libroSelecto.isPresent()){
                     System.out.println("**************************");
-                    System.out.println("Titulo: " + libroSelecto.get().getTitulo());
-                    System.out.println("Autor: " + libroSelecto.get().getAutores());
-                    System.out.println("Idiomas: " + libroSelecto.get().getIdiomas());
-                    System.out.println("Resumen: " + libroSelecto.get().getResumen());
-                    System.out.println("Descargas: " + libroSelecto.get().getDescargas());
+                    System.out.println(libroSelecto.get());
                     System.out.println("**************************");
                 } else{
                     System.out.println("Libro no encontrado");
