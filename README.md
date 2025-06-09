@@ -1,19 +1,24 @@
 # 📚 Bookland - Biblioteca Digital con Gutendex API
 
-¡Bienvenido a **Bookland**! Este programa en **Java** te permite explorar libros digitales desde la API de **Gutendex**, visualizar estadísticas y buscar títulos específicos de manera sencilla.
+Bookland es una aplicación de consola desarrollada en **Java** con **Spring Boot** que permite explorar, registrar y consultar libros digitales utilizando la API pública de **Gutendex**. Además, puedes gestionar autores, realizar búsquedas avanzadas por idioma, filtrar por fechas y ver el top de libros más descargados.
 
 ## 🚀 Características
-- ✅ Obtiene todos los libros disponibles en la API de **Gutendex**.
-- 📊 Muestra los **10 libros más descargados**.
-- 🔍 Permite **buscar** un libro por su título.
-- 📈 Genera estadísticas sobre las descargas de los libros.
 
+- 🔎 **Buscar libros por título** y registrarlos en la base de datos local.
+- 📚 **Listar todos los libros** y autores registrados.
+- 📆 **Filtrar autores** por rango de años de nacimiento.
+- 🌐 **Buscar libros por idioma** (por ejemplo: `en`, `es`, `fr`, etc.).
+- 🏆 **Top 5 libros más descargados**.
+- 🔗 Integración directa con la [API de Gutendex](https://gutendex.com/).
+- 🗃️ **Persistencia** con base de datos relacional (H2, MySQL, etc.).
+- 🧹 **Normalización** de nombres para evitar duplicados.
+- 👥 **Gestión de relaciones** muchos a muchos entre libros y autores.
 
-## 🎮 Uso
-- Al iniciar, el programa muestra **todos los libros** disponibles en la API.
-- Luego, verás un listado con los **10 libros más populares** por descargas.
-- **Puedes buscar un libro** ingresando su nombre.
-- **Las estadísticas** incluyen datos como la suma total de descargas y valores mínimos/máximos.
+## 🛠️ Tecnologías
 
-## 🔗 API Utilizada
-Este proyecto usa la [API de Gutendex](https://gutendex.com/) para obtener datos sobre libros digitales.
+- Java 17+
+- Spring Boot
+- Maven
+- JPA/Hibernate
+- API REST (Gutendex)
+- Base de datos relacional (H2, MySQL, etc.)

@@ -1,34 +1,40 @@
 package com.rick.Bookland.Models;
-
+import jakarta.persistence.*;
+import java.util.stream.*;
 import java.util.List;
 import java.util.Objects;
 
+@Entity
+
 public class Libros {
-    private int numero;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int Id;
+    @Column(unique = true)
     private String titulo;
-    private List<String> tema;
-    private List<Persons>  autores;
-    private List<String>  resumen;
-    private List<String>  idiomas;
+    @Column(length = 1000)
+    private String tema;
+    @ManyToMany(cascade = CascadeType.MERGE,fetch= FetchType.EAGER)
+    @JoinTable(name = "libros_autores",
+    joinColumns = @JoinColumn(name= "libro_id"),
+    inverseJoinColumns = @JoinColumn(name = "autor_id"))
+    private List<Autores>  autores;
+    private String idiomas;
     private Double descargas;
 
+    public Libros(){}
+
     public Libros(Books b) {
-        this.numero = b.numero();
         this.titulo = b.titulo();
-        this.tema = b.tema();
-        this.autores = b.autores();
-        this.resumen = b.resumen();
-        this.idiomas = b.idiomas();
+        this.tema = String.join(", ", b.tema());;
+        this.autores = b.autores().stream()
+                .map(a -> new Autores(a.nombre(), a.nacimiento(), a.fallecimiento()))
+                .toList();
+        this.idiomas = String.join(", ", b.idiomas());
         this.descargas = b.descargas();
     }
 
-    public int getNumero() {
-        return numero;
-    }
 
-    public void setNumero(int numero) {
-        this.numero = numero;
-    }
 
     public String getTitulo() {
         return titulo;
@@ -38,35 +44,28 @@ public class Libros {
         this.titulo = titulo;
     }
 
-    public List<String> getTema() {
+    public String getTema() {
         return tema;
     }
 
-    public void setTema(List<String> tema) {
+    public void setTema(String tema) {
         this.tema = tema;
     }
 
-    public List<Persons> getAutores() {
+    public List<Autores> getAutores() {
         return autores;
     }
 
-    public void setAutores(List<Persons> autores) {
+    public void setAutores(List<Autores> autores) {
         this.autores = autores;
     }
 
-    public List<String> getResumen() {
-        return resumen;
-    }
 
-    public void setResumen(List<String> resumen) {
-        this.resumen = resumen;
-    }
-
-    public List<String> getIdiomas() {
+    public String getIdiomas() {
         return idiomas;
     }
 
-    public void setIdiomas(List<String> idiomas) {
+    public void setIdiomas(String idiomas) {
         this.idiomas = idiomas;
     }
 
@@ -82,19 +81,18 @@ public class Libros {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Libros libros = (Libros) o;
-        return numero == libros.numero && descargas == libros.descargas && Objects.equals(titulo, libros.titulo) && Objects.equals(tema, libros.tema) && Objects.equals(autores, libros.autores) && Objects.equals(resumen, libros.resumen) && Objects.equals(idiomas, libros.idiomas);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(numero, titulo, tema, autores, resumen, idiomas, descargas);
+        return Id == libros.Id && Objects.equals(titulo, libros.titulo) && Objects.equals(tema, libros.tema) && Objects.equals(autores, libros.autores) && Objects.equals(idiomas, libros.idiomas) && Objects.equals(descargas, libros.descargas);
     }
 
     @Override
     public String toString() {
         return
-                "descargas: " + descargas +
-                ", titulo:'" + titulo + '\''
-                ;
+            "########################"+"\n"+
+            "Titulo: " + titulo + "\n" +
+            "Autores: " + autores.stream().map(Autores::getNombre).collect(Collectors.joining(", ")) + "\n" +
+            "Idioma: " + idiomas + "\n" +
+            "Descargas: " + descargas + "\n"+
+             "#########################"+"\n";
+
     }
 }
