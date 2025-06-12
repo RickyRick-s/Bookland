@@ -11,7 +11,6 @@ Bookland es una aplicación de consola desarrollada en **Java** con **Spring Boo
 - 🏆 **Top 5 libros más descargados**.
 - 🔗 Integración directa con la [API de Gutendex](https://gutendex.com/).
 - 🗃️ **Persistencia** con base de datos relacional (H2, MySQL, etc.).
-- 🧹 **Normalización** de nombres para evitar duplicados.
 - 👥 **Gestión de relaciones** muchos a muchos entre libros y autores.
 
 ## 🛠️ Tecnologías
